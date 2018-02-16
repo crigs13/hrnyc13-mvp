@@ -1,6 +1,6 @@
 import React from 'react';
 
-class BalanceField extends Component {
+class BalanceField extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,7 +18,7 @@ class BalanceField extends Component {
   render() {
     return (
       <div>
-        <input value={this.state.balance} onChange={this.onChange}/>
+        <input value={this.state.balance} onChange={this.onChange} placeholder="Enter Your Balance"/>
       </div>
     );
   }

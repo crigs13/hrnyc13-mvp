@@ -19,7 +19,7 @@ class Username extends React.Component {
   render() {
     return (
       <div>
-        <input value={this.state.username} onChange={this.onChange}/>
+        <input value={this.state.username} onChange={this.onChange} placeholder="Enter Username"/>
       </div>
     );
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 import {PieChart} from 'react-easy-chart';
 
-class CryptoChart extends Component {
+class CryptoChart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,7 +15,7 @@ class CryptoChart extends Component {
   render() {
     return (
       <div>
-        <PieChart data={this.state.data} size={200}/>
+        <PieChart data={this.state.data} size={400}/>
       </div>
     );
   }

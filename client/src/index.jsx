@@ -12,7 +12,10 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // what state needs to go here?
+      test: 'test',
+      username: '',
+      balance: '',
+      balances: ''
     }
     // add bound functions here
   }
@@ -33,4 +36,4 @@ class App extends React.Component {
 }
 
 // this handles the React virtual DOM modelling
-Reactdom.RENDER(<App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'));

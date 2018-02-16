@@ -7,3 +7,5 @@ const UpdateCharts = (props) => {
     </div>
   )
 }
+
+export default UpdateCharts;

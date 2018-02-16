@@ -1,6 +1,6 @@
 import React from 'react';
 
-class CoinSelector extends Component {
+class CoinSelector extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,7 +19,7 @@ class CoinSelector extends Component {
   render() {
     return (
       <div>
-        <input value={this.state.username} onChange={this.onChange}/>
+        <input value={this.state.username} onChange={this.onChange} placeholder="Enter Coin Symbol"/>
       </div>
     );
   }
