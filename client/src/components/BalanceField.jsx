@@ -19,7 +19,7 @@ class BalanceField extends React.Component {
   render() {
     return (
       <div>
-        <input value={this.state.balance} onChange={this.onChange} placeholder="Enter Your Balance"/>
+        <input value={this.state.balance} onChange={this.onChange} placeholder="Enter New Balance"/>
       </div>
     );
   }
