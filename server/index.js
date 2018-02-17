@@ -20,7 +20,6 @@ app.post('/update', (req, res) => {
 
   db.updateChartsByUsername(req.body.username, (data) => {
     res.status(200).send(data);
-    console.log('what to do here')
   })
 
 })

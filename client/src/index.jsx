@@ -12,28 +12,86 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
+      username: 'chris',
       balance: 0,
       coin: '',
       chart: {
         balances: [
-          { key: 'A', value: 100 },
-          { key: 'B', value: 200 },
-          { key: 'C', value: 50 }
+          { key: 'BTC', value: 100 }
         ],
         chartSize: 400,
         chartPadding: 200,
         chartLabels: true
-      }
+      },
+      cryptoData: [{}]
     }
     this.addCoinBalance = this.addCoinBalance.bind(this);
     this.updateCharts = this.updateCharts.bind(this);
     this.updateUserState = this.updateUserState.bind(this);
     this.updateCoinState = this.updateCoinState.bind(this);
+    this.getCurrentExchangeRates = this.getCurrentExchangeRates.bind(this);
+    this.calculateUSDbalances = this.calculateUSDbalances.bind(this);
+  }
+
+  componentDidMount() {
+    this.updateCharts();
+  }
+
+  calculateUSDbalances(rates) {
+    console.log('this is the state of balances: ', this.state.chart.balances)
+    let userAccountUpdate = {
+        balances: [],
+        chartSize: this.state.chart.chartSize,
+        chartPadding: this.state.chart.chartPadding,
+        chartLabels: this.state.chart.chartLabels
+    };
+    this.state.chart.balances.forEach((wallet) => {
+      userAccountUpdate.balances.push({
+        value: wallet.value * rates[wallet.key],
+        key: wallet.key
+      })
+    })
+    console.log('setting the chart state with: ', userAccountUpdate)
+    this.setState({
+      chart: userAccountUpdate
+    })
+  }
+
+  getCurrentExchangeRates () {
+    axios.get('https://api.coinmarketcap.com/v1/ticker/?limit=100')
+         .then((response) => {
+           console.log('this is the API response.data[0]: ', response.data[0].symbol);
+           let cryptoData = response.data;
+           console.log('this is crypto data: ', cryptoData);
+           let rates = {};
+           cryptoData.forEach((crypto) => {
+             rates[crypto.symbol] = crypto.price_usd;
+           })
+           console.log('this is the rates object: ', rates);
+           this.calculateUSDbalances(rates);
+         })
+         .catch((error) => {
+           console.log('ERROR in getCurrentExchangeRates, error: ', error);
+         })
+  }
+  
+  addCoinBalance() {
+    axios.post('/submit', {
+      username: this.state.username,
+      balances: [{
+        coin: this.state.coin.toUpperCase(),
+        balance: this.state.balance
+      }]
+    })
+    .then((response) => {
+      console.log('successful POST from addCoinBalance, response: ', response)
+    })
+    .catch((err) => {
+      console.log('failure to POST from addCoinBalance, error: ', err)
+    })
   }
 
   updateCharts() {
-    console.log('User clicked Update Data');
     axios.post('/update', {
       username: this.state.username
     })
@@ -51,9 +109,11 @@ class App extends React.Component {
           value: wallet.balance
         })
       })
+      console.log('setting the chart state with: ', userAccountUpdate)
       this.setState({
         chart: userAccountUpdate
       })
+      this.getCurrentExchangeRates();
     })
     .catch((error) => {
       console.log('ERROR in updateCharts, error: ', error);
@@ -77,23 +137,6 @@ class App extends React.Component {
       username: username
     })
   }
-
-  addCoinBalance() {
-    axios.post('/submit', {
-      username: this.state.username,
-      balances: [{
-        coin: this.state.coin,
-        balance: this.state.balance
-      }]
-    })
-    .then((response) => {
-      console.log('successful POST from addCoinBalance, response: ', response)
-    })
-    .catch((err) => {
-      console.log('failure to POST from addCoinBalance, error: ', err)
-    })
-  }
-
 
   render() {
     return (<div>
