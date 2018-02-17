@@ -7,7 +7,6 @@ import SubmitData from './components/SubmitData.jsx';
 import UpdateCharts from './components/UpdateCharts.jsx';
 import CryptoChart from './components/CryptoChart.jsx';
 import axios from 'axios';
-//other imports?
 
 class App extends React.Component {
   constructor(props) {
@@ -52,8 +51,7 @@ class App extends React.Component {
   }
 
   addCoinBalance() {
-    console.log('on addCoinBalance, statevalsUsername, coin, bal: ', this.state.username, this.state.coin, this.state.balance);
-    axios.post('/', {
+    axios.post('/update', {
       username: this.state.username,
       balances: [{
         coin: this.state.coin,
@@ -72,7 +70,6 @@ class App extends React.Component {
     console.log('User clicked Update Data');
   }
 
-  // figure out what props to pass down to sub components
   render() {
     return (<div>
         <h1>Welcome to your Crypto Balance Dashboard</h1>

@@ -3,7 +3,6 @@ import React from 'react';
 // {<button onClick={props.onSubmit('chris', 'BTC', 10)}>Submit Data</button>}
 
 const SubmitData = (props) => {
-  console.log('Within SubmitData: ', props);
   let submit = () => {
     props.logdata();
   }
