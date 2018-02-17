@@ -22,7 +22,7 @@ app.post('/update', (req, res) => {
   })
 })
 
-let port = 9001;
+let port = process.env.PORT || 9001;
 
 app.listen(port, () => {
   console.log(`listening on port ${port}`)
