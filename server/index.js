@@ -17,15 +17,9 @@ app.post('/submit', (req, res) => {
 })
 
 app.post('/update', (req, res) => {
-
   db.updateChartsByUsername(req.body.username, (data) => {
     res.status(200).send(data);
   })
-
-})
-
-app.get('/', (req,res) => {
-  // handle get requests
 })
 
 let port = 9001;
