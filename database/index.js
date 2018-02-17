@@ -8,6 +8,8 @@ let dbpassword = process.env.dbpassword;
 // } else {
 //   mongoose.connect('mongodb://localhost/cryptobal');
 // }
+console.log('this is dbuser: ', dbuser);
+console.log('this is process.env: ', process.env)
 
 mongoose.connect(`mongodb://${dbuser}:${dbpassword}@ds239648.mlab.com:39648/mvpcryptoaccs`)
 
