@@ -14,7 +14,7 @@ class App extends React.Component {
     this.state = {
       username: '',
       balance: 0,
-      coin: 'BTC',
+      coin: '',
       chart: {
         balances: [
           { key: 'A', value: 100 },
@@ -22,14 +22,42 @@ class App extends React.Component {
           { key: 'C', value: 50 }
         ],
         chartSize: 400,
-        chartPadding: 50,
+        chartPadding: 200,
         chartLabels: true
       }
     }
     this.addCoinBalance = this.addCoinBalance.bind(this);
-    this.updateLiveData = this.updateLiveData.bind(this);
+    this.updateCharts = this.updateCharts.bind(this);
     this.updateUserState = this.updateUserState.bind(this);
     this.updateCoinState = this.updateCoinState.bind(this);
+  }
+
+  updateCharts() {
+    console.log('User clicked Update Data');
+    axios.post('/update', {
+      username: this.state.username
+    })
+    .then((response) => {
+      let userAccountUpdate = {
+        balances: [],
+        chartSize: this.state.chart.chartSize,
+        chartPadding: this.state.chart.chartPadding,
+        chartLabels: this.state.chart.chartLabels
+      };
+      let data = response.data[0].balances;
+      data.forEach(wallet => {
+        userAccountUpdate.balances.push({
+          key: wallet.coin,
+          value: wallet.balance
+        })
+      })
+      this.setState({
+        chart: userAccountUpdate
+      })
+    })
+    .catch((error) => {
+      console.log('ERROR in updateCharts, error: ', error);
+    })
   }
 
   updateBalanceState(balance) {
@@ -51,7 +79,7 @@ class App extends React.Component {
   }
 
   addCoinBalance() {
-    axios.post('/update', {
+    axios.post('/submit', {
       username: this.state.username,
       balances: [{
         coin: this.state.coin,
@@ -66,9 +94,6 @@ class App extends React.Component {
     })
   }
 
-  updateLiveData() {
-    console.log('User clicked Update Data');
-  }
 
   render() {
     return (<div>
@@ -90,32 +115,16 @@ class App extends React.Component {
         />
         <SubmitData 
           logdata={this.addCoinBalance.bind(this)}
-          
-          
-          
         />
-        <UpdateCharts />
-        <CryptoChart chartData={this.state.chart}/>
+        <UpdateCharts 
+          updateChart={this.updateCharts.bind(this)}
+        />
+        <CryptoChart 
+          chartData={this.state.chart}
+        />
       </div>
     )
   }
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));
-
-  // addCoinBalance(username, coin, balance) {
-  //   console.log('User clicked Submit Data1');
-  //   axios.post('/', {
-  //     username: username,
-  //     balances: [{
-  //       coin: coin,
-  //       balance: balance
-  //     }]
-  //   })
-  //   .then((response) => {
-  //     console.log('successful POST from addCoinBalance, response: ', response)
-  //   })
-  //   .catch((err) => {
-  //     console.log('failure to POST from addCoinBalance, error: ', err)
-  //   })
-  // }

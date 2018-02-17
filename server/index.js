@@ -6,14 +6,23 @@ let app = express();
 app.use(express.static(__dirname + '/../client/dist'));
 app.use(bodyParser.json());
 
-app.post('/update', (req, res) => {
+app.post('/submit', (req, res) => {
   let username = req.body.username;
   let coin = req.body.balances[0].coin;
   let balance = req.body.balances[0].balance;
 
-  db.findUser(username, coin, balance, () => {
+  db.handleNewOrExistingUser(username, coin, balance, () => {
     res.status(201).send();
   })
+})
+
+app.post('/update', (req, res) => {
+
+  db.updateChartsByUsername(req.body.username, (data) => {
+    res.status(200).send(data);
+    console.log('what to do here')
+  })
+
 })
 
 app.get('/', (req,res) => {

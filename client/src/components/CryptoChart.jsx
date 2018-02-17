@@ -7,7 +7,10 @@ const CryptoChart = (props) => {
     <div>
       <PieChart 
         data={props.chartData.balances} 
-        size={400}/>
+        size={props.chartData.chartSize}
+        labels={props.chartData.chartLabels}
+        
+      />
     </div>
   );
 }

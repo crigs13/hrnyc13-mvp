@@ -16,7 +16,7 @@ let userAccSchema = mongoose.Schema({
 let UserAcc = mongoose.model('UserAcc', userAccSchema);
 
 
-let findUser = (username, coin, balance, cb) => {
+let handleNewOrExistingUser = (username, coin, balance, cb) => {
   UserAcc.find({
     username: username
   }, (err, entry) => {
@@ -94,13 +94,21 @@ let addCoinBalance = (username, coin, balance, cb) => {
   })
 }
 
-// ADD READ FROM DB
-let getBalances = () => {
-  // Read from DB and update 
+let updateChartsByUsername = (username, cb) => {
+  UserAcc.find({
+    username: username
+  }, (err, data) => {
+    if (err) console.log('ERROR in updateChartsByUsername, error: ', err);
+    else {
+      console.log('this is the format of the data: ', data[0]);
+      cb(data);
+    }
+  })
 }
 
-module.exports.findUser = findUser;
+module.exports.handleNewOrExistingUser = handleNewOrExistingUser;
 module.exports.saveBalance = saveBalance;
 module.exports.checkForCoin = checkForCoin;
 module.exports.updateCoinBalance = updateCoinBalance;
 module.exports.addCoinBalance = addCoinBalance;
+module.exports.updateChartsByUsername = updateChartsByUsername;

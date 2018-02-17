@@ -3,7 +3,7 @@ import React from 'react';
 const UpdateCharts = (props) => {
   return (
     <div>
-      <button id="update">Update Charts</button>
+      <button onClick={props.updateChart}>Update Charts</button>
     </div>
   )
 }
