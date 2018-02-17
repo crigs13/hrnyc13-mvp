@@ -57,10 +57,10 @@ let checkForCoin = (username, coin, balance, cb) => {
   }, (err, entry) => {
     if (err) console.log('ERRON in checkForCoin, error: ', err)
     else {
-      if (entry) {
-        updateCoinBalance(username, coin, balance, cb);
-      } else {
+      if (entry.length === 0) {
         addCoinBalance(username, coin, balance, cb);
+      } else {
+        updateCoinBalance(username, coin, balance, cb);
       }
     }
   })

@@ -7,25 +7,13 @@ app.use(express.static(__dirname + '/../client/dist'));
 app.use(bodyParser.json());
 
 app.post('/update', (req, res) => {
-  /*
-  PROCESS
-  Receive post request
-  Check for checkForUser
-    if true, check for existing coin
-    if false
-      if true, update exising coin balance
-  */
-  db.findUser(req.body.username, () => {
+  let username = req.body.username;
+  let coin = req.body.balances[0].coin;
+  let balance = req.body.balances[0].balance;
+
+  db.findUser(username, coin, balance, () => {
     res.status(201).send();
   })
-
-  // db.saveBalance(req.body, () => {
-  //   res.status(201).send()
-  // })
-
-  // db.updateCoinBalance(req.body.username, req.body.coin, req.body.balance, '20', () => {
-  //   res.status(201).send();
-  // })
 })
 
 app.get('/', (req,res) => {
@@ -37,15 +25,3 @@ let port = 9001;
 app.listen(port, () => {
   console.log(`listening on port ${port}`)
 })
-
-
-  // let userInfo = {
-  //   username: 'chris',
-  //   balances: [{
-  //     coin: 'BTC',
-  //     balance: 10
-  //   }]
-  // }
-  // db.saveBalance(req.body, () => {
-  //   console.log('Successful write to db')
-  // })
