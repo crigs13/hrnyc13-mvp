@@ -13,7 +13,8 @@ class CoinSelector extends React.Component {
     this.setState({
       coin: e.target.value 
       // should this be dropdown from array of values?
-    })
+    });
+    this.props.trackcoin(e.target.value);
   }
 
   render() {

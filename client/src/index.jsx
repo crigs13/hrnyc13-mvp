@@ -6,34 +6,119 @@ import BalanceField from './components/BalanceField.jsx';
 import SubmitData from './components/SubmitData.jsx';
 import UpdateCharts from './components/UpdateCharts.jsx';
 import CryptoChart from './components/CryptoChart.jsx';
+import axios from 'axios';
 //other imports?
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      test: 'test',
       username: '',
-      balance: '',
-      balances: ''
+      balance: 0,
+      coin: 'BTC',
+      chart: {
+        balances: [
+          { key: 'A', value: 100 },
+          { key: 'B', value: 200 },
+          { key: 'C', value: 50 }
+        ],
+        chartSize: 400,
+        chartPadding: 50,
+        chartLabels: true
+      }
     }
-    // add bound functions here
+    this.addCoinBalance = this.addCoinBalance.bind(this);
+    this.updateLiveData = this.updateLiveData.bind(this);
+    this.updateUserState = this.updateUserState.bind(this);
+    this.updateCoinState = this.updateCoinState.bind(this);
+  }
+
+  updateBalanceState(balance) {
+    this.setState({
+      balance: balance
+    })
+  }
+
+  updateCoinState(coin) {
+    this.setState({
+      coin: coin
+    })
+  }
+
+  updateUserState(username) {
+    this.setState({
+      username: username
+    })
+  }
+
+  addCoinBalance() {
+    console.log('on addCoinBalance, statevalsUsername, coin, bal: ', this.state.username, this.state.coin, this.state.balance);
+    axios.post('/', {
+      username: this.state.username,
+      balances: [{
+        coin: this.state.coin,
+        balance: this.state.balance
+      }]
+    })
+    .then((response) => {
+      console.log('successful POST from addCoinBalance, response: ', response)
+    })
+    .catch((err) => {
+      console.log('failure to POST from addCoinBalance, error: ', err)
+    })
+  }
+
+  updateLiveData() {
+    console.log('User clicked Update Data');
   }
 
   // figure out what props to pass down to sub components
   render() {
     return (<div>
-        <h1>Welcome to your Crypto Balancer</h1>
-        <Username />
-        <CoinSelector />
-        <BalanceField />
-        <SubmitData />
+        <h1>Welcome to your Crypto Balance Dashboard</h1>
+        Username: 
+        <Username 
+          username={this.state.username}
+          trackusername={this.updateUserState.bind(this)}
+        />
+        Coin Symbol: 
+        <CoinSelector 
+          coin={this.state.coin}
+          trackcoin={this.updateCoinState.bind(this)}
+        />
+        Balance:
+        <BalanceField 
+          balance={this.state.balance}
+          trackbalance={this.updateBalanceState.bind(this)}
+        />
+        <SubmitData 
+          logdata={this.addCoinBalance.bind(this)}
+          
+          
+          
+        />
         <UpdateCharts />
-        <CryptoChart />
+        <CryptoChart chartData={this.state.chart}/>
       </div>
     )
   }
 }
 
-// this handles the React virtual DOM modelling
 ReactDOM.render(<App />, document.getElementById('app'));
+
+  // addCoinBalance(username, coin, balance) {
+  //   console.log('User clicked Submit Data1');
+  //   axios.post('/', {
+  //     username: username,
+  //     balances: [{
+  //       coin: coin,
+  //       balance: balance
+  //     }]
+  //   })
+  //   .then((response) => {
+  //     console.log('successful POST from addCoinBalance, response: ', response)
+  //   })
+  //   .catch((err) => {
+  //     console.log('failure to POST from addCoinBalance, error: ', err)
+  //   })
+  // }

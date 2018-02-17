@@ -13,6 +13,7 @@ class BalanceField extends React.Component {
     this.setState({
       balance: e.target.value
     })
+    this.props.trackbalance(e.target.value);
   }
 
   render() {

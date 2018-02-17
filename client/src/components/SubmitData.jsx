@@ -1,10 +1,15 @@
 import React from 'react';
 
+// {<button onClick={props.onSubmit('chris', 'BTC', 10)}>Submit Data</button>}
+
 const SubmitData = (props) => {
-  console.log('these are the props in SubmitData: ', props);
+  console.log('Within SubmitData: ', props);
+  let submit = () => {
+    props.logdata();
+  }
   return (
     <div>
-      <button id="submit">Submit Data</button>
+      <button onClick={submit}>Submit Data</button>
     </div>
   );
 }

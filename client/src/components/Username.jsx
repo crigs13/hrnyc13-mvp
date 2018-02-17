@@ -7,13 +7,13 @@ class Username extends React.Component {
       username: ''
     }
     this.onChange = this.onChange.bind(this);
-    // add bound functions here
   }
 
   onChange(e) {
     this.setState({
       username: e.target.value
     });
+    this.props.trackusername(e.target.value)
   }
 
   render() {

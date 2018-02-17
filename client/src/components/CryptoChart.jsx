@@ -1,24 +1,15 @@
 import React from 'react';
 import {PieChart} from 'react-easy-chart';
 
-class CryptoChart extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: [
-        { key: 'A', value: 100 },
-        { key: 'B', value: 200 },
-        { key: 'C', value: 50 }
-      ]
-    }
-  }
-  render() {
-    return (
-      <div>
-        <PieChart data={this.state.data} size={400}/>
-      </div>
-    );
-  }
+const CryptoChart = (props) => {
+  console.log('these are the props in CryptoChart: ', props)
+  return (
+    <div>
+      <PieChart 
+        data={props.chartData.balances} 
+        size={400}/>
+    </div>
+  );
 }
 
 export default CryptoChart;
