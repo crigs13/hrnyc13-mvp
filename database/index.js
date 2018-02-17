@@ -1,6 +1,13 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/cryptobal');
 mongoose.Promise = require('bluebird');
+let dbuser = process.env.dbuser;
+let dbpassword = process.env.dbpassword;
+
+if (process.env.NODE_ENV === 'production') {
+  mongoose.connect(`mongodb://${dbuser}:${dbpassword}@ds239648.mlab.com:39648/mvpcryptoaccs`);
+} else {
+  mongoose.connect('mongodb://localhost/cryptobal');
+}
 
 let userAccSchema = mongoose.Schema({
   username: {
