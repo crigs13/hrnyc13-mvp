@@ -85,6 +85,7 @@ class App extends React.Component {
     })
     .then((response) => {
       console.log('successful POST from addCoinBalance, response: ', response)
+      this.updateCharts();
     })
     .catch((err) => {
       console.log('failure to POST from addCoinBalance, error: ', err)

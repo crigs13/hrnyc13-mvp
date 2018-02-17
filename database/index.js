@@ -9,8 +9,6 @@ if (process.env.NODE_ENV === 'production') {
   mongoose.connect('mongodb://localhost/cryptobal');
 }
 
-// mongoose.connect(`mongodb://${dbuser}:${dbpassword}@ds239648.mlab.com:39648/mvpcryptoaccs`)
-
 let userAccSchema = mongoose.Schema({
   username: {
     type: String,
@@ -24,7 +22,7 @@ let userAccSchema = mongoose.Schema({
 
 let UserAcc = mongoose.model('UserAcc', userAccSchema);
 
-
+// DATABASE METHODS
 let handleNewOrExistingUser = (username, coin, balance, cb) => {
   UserAcc.find({
     username: username
@@ -32,10 +30,10 @@ let handleNewOrExistingUser = (username, coin, balance, cb) => {
     if (err) console.log('ERROR in checkForUser, error: ', err);
     else {
       if (entry.length === 0) {
-        //new user
+        // HANDLE NEW USER
         saveBalance(username, coin, balance, cb);
       } else {
-        //existing user
+        // HANDLE EXISTING USER
         checkForCoin(username, coin, balance, cb);
         console.log('user found, entry: ', entry);
       }
